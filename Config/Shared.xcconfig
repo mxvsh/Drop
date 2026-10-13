@@ -1,0 +1,23 @@
+// Settings shared by Debug and Release. Nothing personal belongs here:
+// your team ID goes in Config/Local.xcconfig (git-ignored), and CI passes its own values.
+
+APP_BUNDLE_ID = com.monawwar.Drop
+PRODUCT_MODULE_NAME = Drop
+
+// What people read, and what Sparkle compares. CI overrides both from the tag and run number.
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+// Without a team, builds are signed to run locally. Local.xcconfig or CI supplies a real identity.
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM =
+CODE_SIGN_IDENTITY = -
+
+// Extra Info.plist keys (Sparkle), merged into the generated Info.plist.
+INFOPLIST_FILE = Config/Info.plist
+
+// Sparkle feed and EdDSA public key. Empty means updates are off; the release workflow fills them in.
+SPARKLE_FEED_URL =
+SPARKLE_PUBLIC_KEY =
+
+#include? "Local.xcconfig"

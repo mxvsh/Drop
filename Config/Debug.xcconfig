@@ -1,0 +1,7 @@
+// The Debug app is a separate app: own name, bundle ID, settings, Shelf and login item,
+// so it never collides with an installed release. It never checks for updates.
+#include "Shared.xcconfig"
+
+PRODUCT_NAME = Drop Debug
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_ID).Debug
+INFOPLIST_KEY_CFBundleDisplayName = Drop Debug

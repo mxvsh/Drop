@@ -1,0 +1,13 @@
+// Copy to Config/Local.xcconfig (git-ignored) to sign with your own Apple developer team:
+//   cp Config/Local.xcconfig.example Config/Local.xcconfig
+// Find your team ID at developer.apple.com/account, under Membership details.
+
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+CODE_SIGN_IDENTITY = Apple Development
+
+// Optional: use your own bundle ID prefix.
+// APP_BUNDLE_ID = com.example.Drop
+
+// Optional: try Sparkle against a real feed in a local Release build.
+// SPARKLE_FEED_URL = https:/$()/github.com/OWNER/REPO/releases/latest/download/appcast.xml
+// SPARKLE_PUBLIC_KEY = BASE64_PUBLIC_KEY

@@ -205,6 +205,8 @@ struct ActionsPane: View {
 // MARK: - About
 
 struct AboutPane: View {
+    let updater: UpdaterService
+
     private var version: String {
         let info = Bundle.main.infoDictionary
         let short = info?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -223,6 +225,9 @@ struct AboutPane: View {
                 Text(version)
                     .font(.callout)
                     .foregroundStyle(.secondary)
+            }
+            if updater.isEnabled {
+                Button("Check for Updates…") { updater.checkForUpdates() }
             }
             Text("Convert, compress and keep files without leaving the drag.\nEverything runs on your Mac. Nothing is uploaded.")
                 .multilineTextAlignment(.center)

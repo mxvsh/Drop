@@ -8,12 +8,14 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
 
     private let settings: AppSettings
     private let shelf: ShelfStore
+    private let updater: UpdaterService
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let menu = NSMenu()
 
-    init(settings: AppSettings, shelf: ShelfStore) {
+    init(settings: AppSettings, shelf: ShelfStore, updater: UpdaterService) {
         self.settings = settings
         self.shelf = shelf
+        self.updater = updater
         super.init()
         menu.delegate = self
         statusItem.menu = menu
@@ -45,6 +47,11 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
         menu.addItem(ClosureMenuItem(title: "Welcome Guide", symbol: "sparkles", keyEquivalent: "") { [weak self] in
             self?.onShowWelcome()
         })
+        if updater.isEnabled {
+            menu.addItem(ClosureMenuItem(title: "Check for Updates…", symbol: "arrow.down.circle", keyEquivalent: "") { [weak self] in
+                self?.updater.checkForUpdates()
+            })
+        }
         menu.addItem(ClosureMenuItem(title: "Settings…", symbol: "gearshape", keyEquivalent: ",") { [weak self] in
             self?.onShowSettings()
         })

@@ -8,9 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3CF0A00300000000000AEB03 /* libwebp in Frameworks */ = {isa = PBXBuildFile; productRef = 3CF0A00200000000000AEB02 /* libwebp */; };
+		3CF0A02300000000000A5B03 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3CF0A02200000000000A5B02 /* Sparkle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CF0A01100000000000C0F02 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		3CF0A01200000000000C0F03 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		3CF0A01300000000000C0F04 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		3CF0A01400000000000C0F05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CF040C6307E1EEC0049EC3D /* Drop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -27,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				3CF0A00300000000000AEB03 /* libwebp in Frameworks */,
+				3CF0A02300000000000A5B03 /* Sparkle in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -35,6 +41,7 @@
 		3CF040BD307E1EEC0049EC3D = {
 			isa = PBXGroup;
 			children = (
+				3CF0A01000000000000C0F01 /* Config */,
 				3CF040C8307E1EEC0049EC3D /* Drop */,
 				3CF040C7307E1EEC0049EC3D /* Products */,
 			);
@@ -46,6 +53,17 @@
 				3CF040C6307E1EEC0049EC3D /* Drop.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3CF0A01000000000000C0F01 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				3CF0A01100000000000C0F02 /* Shared.xcconfig */,
+				3CF0A01200000000000C0F03 /* Debug.xcconfig */,
+				3CF0A01300000000000C0F04 /* Release.xcconfig */,
+				3CF0A01400000000000C0F05 /* Info.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -67,6 +85,7 @@
 			name = Drop;
 			packageProductDependencies = (
 				3CF0A00200000000000AEB02 /* libwebp */,
+				3CF0A02200000000000A5B02 /* Sparkle */,
 			);
 			productName = Drop;
 			productReference = 3CF040C6307E1EEC0049EC3D /* Drop.app */;
@@ -98,6 +117,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3CF0A00100000000000AEB01 /* XCRemoteSwiftPackageReference "libwebp-Xcode" */,
+				3CF0A02100000000000A5B01 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CF040C7307E1EEC0049EC3D /* Products */;
@@ -161,7 +181,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 996Y4MJA7D;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -225,7 +244,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 996Y4MJA7D;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -248,28 +266,22 @@
 		};
 		3CF040D4307E1EEE0049EC3D /* Debug configuration for PBXNativeTarget "Drop" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CF0A01200000000000C0F03 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 996Y4MJA7D;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_CFBundleDisplayName = "Drop Debug";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.monawwar.Drop.Debug;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -281,28 +293,22 @@
 		};
 		3CF040D5307E1EEE0049EC3D /* Release configuration for PBXNativeTarget "Drop" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CF0A01300000000000C0F04 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 996Y4MJA7D;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_CFBundleDisplayName = "Drop";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.monawwar.Drop;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -341,6 +347,14 @@
 				minimumVersion = 1.6.0;
 			};
 		};
+		3CF0A02100000000000A5B01 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -348,6 +362,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3CF0A00100000000000AEB01 /* XCRemoteSwiftPackageReference "libwebp-Xcode" */;
 			productName = libwebp;
+		};
+		3CF0A02200000000000A5B02 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3CF0A02100000000000A5B01 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

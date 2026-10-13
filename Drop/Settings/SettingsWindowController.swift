@@ -6,13 +6,13 @@ import SwiftUI
 final class SettingsWindowController: NSWindowController {
     private static let paneSize = NSSize(width: 560, height: 520)
 
-    init(settings: AppSettings) {
+    init(settings: AppSettings, updater: UpdaterService) {
         let tabs = NSTabViewController()
         tabs.tabStyle = .toolbar
         tabs.addTabViewItem(Self.pane("General", symbol: "gearshape", GeneralPane(settings: settings)))
         tabs.addTabViewItem(Self.pane("Output", symbol: "square.and.arrow.down", OutputPane(settings: settings)))
         tabs.addTabViewItem(Self.pane("Actions", symbol: "square.grid.2x2", ActionsPane(settings: settings)))
-        tabs.addTabViewItem(Self.pane("About", symbol: "info.circle", AboutPane()))
+        tabs.addTabViewItem(Self.pane("About", symbol: "info.circle", AboutPane(updater: updater)))
 
         let window = NSWindow(contentViewController: tabs)
         window.styleMask = [.titled, .closable, .miniaturizable]

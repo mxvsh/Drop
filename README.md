@@ -40,20 +40,42 @@ The trigger can be changed to ⌃, ⌘, ⇧ or Fn, or to a quick shake of the cu
 ## Requirements
 
 - macOS 15 Sequoia or later. On macOS 26 the panel uses Liquid Glass; earlier versions use a vibrant material.
-- Xcode 26 or later to build.
+- Xcode 27 to open the project. The release workflow builds with Xcode 26 by matching the project format.
 
 Drop needs no Accessibility, Input Monitoring or Screen Recording permission.
 
 ## Building
 
 ```sh
-make debug   # build and launch the Debug app ("Drop Debug", its own bundle ID)
+make debug   # build and launch "Drop Debug"
 make prod    # build and launch a Release build
-make kill    # quit a running copy
+make kill    # quit running copies
 make clean   # remove build output
 ```
 
-Or open `Drop.xcodeproj` and run the **Drop** scheme. The only dependency is [libwebp](https://github.com/SDWebImage/libwebp-Xcode), pulled in by Swift Package Manager.
+Or open `Drop.xcodeproj` and run the **Drop** scheme. Dependencies come from Swift Package Manager: [Sparkle](https://sparkle-project.org) for updates and [libwebp](https://github.com/SDWebImage/libwebp-Xcode) for WebP encoding.
+
+### Your own signing team
+
+Nothing personal is committed. Every build setting lives in `Config/*.xcconfig`, and without a team the app is signed to run locally. To sign with your Apple developer team:
+
+```sh
+cp Config/Local.xcconfig.example Config/Local.xcconfig   # git-ignored
+# then set DEVELOPMENT_TEAM in it
+```
+
+`Local.xcconfig` can also override the bundle ID prefix (`APP_BUNDLE_ID`).
+
+### Debug and release are separate apps
+
+| | Debug | Release |
+|---|---|---|
+| App | `Drop Debug.app` | `Drop.app` |
+| Bundle ID | `com.monawwar.Drop.Debug` | `com.monawwar.Drop` |
+| Settings, Shelf, login item | its own | its own |
+| Updates | never checks | Sparkle, when built with a feed and key |
+
+So a development build can run next to an installed release without either touching the other.
 
 ## How it works
 
@@ -89,9 +111,61 @@ DistributedNotificationCenter.default().postNotificationName(
 )
 ```
 
+## Releasing
+
+Push a tag such as `v0.2.0` on `main`. [`.github/workflows/release.yml`](.github/workflows/release.yml) archives the app, signs it with your Developer ID, builds and notarizes a DMG, signs a Sparkle appcast, and publishes both to GitHub Releases with notes generated from the commits since the last tag (`scripts/release-notes.sh`). Tags with a `-`, like `v0.2.0-beta.1`, become pre-releases.
+
+Installed copies check `https://github.com/<owner>/<repo>/releases/latest/download/appcast.xml`. The URL is built from the repository the workflow runs in, so nothing needs editing when the repo moves.
+
+### One-time setup
+
+1. **Sparkle key.** Run `make sparkle-key`. It creates an EdDSA key pair in your login keychain (account `drop`) and prints the public key. Then save the private key:
+
+   ```sh
+   build/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_keys --account drop -x drop-sparkle.key
+   ```
+
+   Keep a backup somewhere safe. **If the private key is lost, existing installs can never verify another update.**
+
+2. **Repository variable** (Settings → Secrets and variables → Actions → Variables):
+
+   | Variable | Value |
+   |---|---|
+   | `SPARKLE_PUBLIC_KEY` | the public key from `make sparkle-key` |
+
+3. **Repository secrets:**
+
+   | Secret | What it is |
+   |---|---|
+   | `BUILD_CERTIFICATE_BASE64` | Developer ID Application certificate and private key, exported as `.p12`, base64-encoded |
+   | `P12_PASSWORD` | the password chosen when exporting the `.p12` |
+   | `KEYCHAIN_PASSWORD` | any random string, protects the runner's temporary keychain |
+   | `APPLE_TEAM_ID` | your 10-character team ID |
+   | `APPLE_ID` | the Apple ID of the developer account |
+   | `APPLE_APP_SPECIFIC_PASSWORD` | created at account.apple.com → Sign-In and Security |
+   | `SPARKLE_PRIVATE_KEY` | contents of `drop-sparkle.key` |
+
+   With the GitHub CLI:
+
+   ```sh
+   gh variable set SPARKLE_PUBLIC_KEY --body "<public key>"
+   gh secret set SPARKLE_PRIVATE_KEY < drop-sparkle.key
+   base64 -i Certificates.p12 | gh secret set BUILD_CERTIFICATE_BASE64
+   gh secret set P12_PASSWORD
+   openssl rand -hex 16 | gh secret set KEYCHAIN_PASSWORD
+   gh secret set APPLE_TEAM_ID
+   gh secret set APPLE_ID
+   gh secret set APPLE_APP_SPECIFIC_PASSWORD
+   ```
+
+   The certificate must be **Developer ID Application** (`security find-identity -v -p codesigning`). Delete the exported `.p12` and `.key` files from disk afterwards.
+
+### Testing updates
+
+`releases/latest` skips pre-releases, so the update feed only resolves once a stable release exists. To prove updating end to end: release `v0.1.0`, install it, release `v0.1.1`, then choose **Check for Updates…** in the first install.
+
 ## Not yet
 
-- Signed and notarized DMG releases with Sparkle updates through GitHub Actions.
 - An app icon.
 - Drags that hand over a promise of a file rather than a real one, such as images dragged from Photos or Safari.
 - Lossy PNG compression (convert to WebP or JPEG for now).

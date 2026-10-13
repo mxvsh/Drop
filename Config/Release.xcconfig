@@ -1,0 +1,5 @@
+#include "Shared.xcconfig"
+
+PRODUCT_NAME = Drop
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_ID)
+INFOPLIST_KEY_CFBundleDisplayName = Drop

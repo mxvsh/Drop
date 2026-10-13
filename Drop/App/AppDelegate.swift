@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let settings = AppSettings()
     private let shelf = ShelfStore()
+    private let updater = UpdaterService()
     private var panelController: DropPanelController!
     private var dragMonitor: DragMonitor!
     private var statusMenu: StatusMenuController!
@@ -25,7 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         dragMonitor.onDragEnded = { [weak self] in self?.panelController.dragEnded() }
         dragMonitor.start()
 
-        statusMenu = StatusMenuController(settings: settings, shelf: shelf)
+        statusMenu = StatusMenuController(settings: settings, shelf: shelf, updater: updater)
         statusMenu.onShowShelf = { [weak self] in self?.panelController.showShelf() }
         statusMenu.onShowSettings = { [weak self] in self?.showSettings() }
         statusMenu.onShowWelcome = { [weak self] in self?.showOnboarding() }
@@ -49,7 +50,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     private func showSettings() {
-        if settingsWindow == nil { settingsWindow = SettingsWindowController(settings: settings) }
+        if settingsWindow == nil { settingsWindow = SettingsWindowController(settings: settings, updater: updater) }
         NSApp.activate()
         settingsWindow?.showWindow(nil)
         settingsWindow?.window?.makeKeyAndOrderFront(nil)
