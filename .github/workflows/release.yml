@@ -34,9 +34,25 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check configuration
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          test -n "$SPARKLE_PUBLIC_KEY" \
-            || { echo "::error::Set the SPARKLE_PUBLIC_KEY repository variable (see README, Releasing)."; exit 1; }
+          # Fail early, by name, instead of deep inside signing or notarization.
+          missing=0
+          for name in SPARKLE_PUBLIC_KEY BUILD_CERTIFICATE_BASE64 P12_PASSWORD KEYCHAIN_PASSWORD \
+                      APPLE_TEAM_ID APPLE_ID APPLE_APP_SPECIFIC_PASSWORD SPARKLE_PRIVATE_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is empty or not set (see README, Releasing)."
+              missing=1
+            fi
+          done
+          [ "$missing" = 0 ]
 
       - name: Install signing certificate
         env:
