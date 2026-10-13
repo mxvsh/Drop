@@ -1,4 +1,12 @@
-# Drop
+<p align="center">
+  <img src="assets/icon.webp" width="128" height="128" alt="Drop app icon">
+</p>
+
+<h1 align="center">Drop</h1>
+
+<p align="center">
+  <a href="https://github.com/mxvsh/Drop/releases/latest">Download for macOS</a> · <a href="https://monawwar.com/projects/drop">Website</a>
+</p>
 
 Convert, compress and keep files without leaving the drag.
 
