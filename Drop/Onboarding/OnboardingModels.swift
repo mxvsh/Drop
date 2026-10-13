@@ -2,7 +2,7 @@ import AppKit
 import Observation
 import SwiftUI
 
-/// Tracks the hands-on step: drag the sample, hold the trigger, drop on an action.
+/// Tracks the hands-on step: drag the sample, press the trigger, drop on an action.
 @Observable
 final class PracticeSession {
     var isActive = false

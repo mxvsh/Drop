@@ -10,7 +10,7 @@
 
 Convert, compress and keep files without leaving the drag.
 
-Drop is a menu bar app for macOS. Start dragging any file, hold **⌥ Option**, and a small panel appears next to the cursor with actions that fit that file. Drop it on one and the result is saved next to the original, ready to drag on into Slack, Mail, Figma or wherever it was going.
+Drop is a menu bar app for macOS. Start dragging any file, press **⌥ Option**, and a small panel appears next to the cursor with actions that fit that file. Drop it on one and the result is saved next to the original, ready to drag on into Slack, Mail, Figma or wherever it was going.
 
 Everything runs on your Mac. Nothing is uploaded.
 
@@ -34,7 +34,7 @@ Drop looks at what you're dragging and only offers what makes sense. A format yo
 ## Using it
 
 1. Start dragging a file from Finder, the desktop, Mail or any other app.
-2. Hold **⌥ Option**. The panel appears beside the cursor and stays open after you let go of the key.
+2. Press **⌥ Option**. The panel appears beside the cursor and stays open, so there's no need to keep holding the key.
 3. Drop on an action. Hovering a tile shows what it does in the status line; hovering **More** reveals the rest.
 
 The trigger can be changed to ⌃, ⌘, ⇧ or Fn, or to a quick shake of the cursor, in **Settings → General**. Finder already uses Option for "copy" while dragging; since the panel stays open once revealed, release the key before dropping somewhere else.

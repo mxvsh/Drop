@@ -277,7 +277,7 @@ private struct MoreTile: View {
         .contentShape(Rectangle())
         .onTapGesture { open() }
         .onDrop(of: [UTType.fileURL], isTargeted: $isTargeted) { _ in false }
-        .modifier(DropTargetFeedback(session: session, hint: "Hold here to see more", isTargeted: $isTargeted))
+        .modifier(DropTargetFeedback(session: session, hint: "Pause here to see more", isTargeted: $isTargeted))
         .onChange(of: isTargeted) { _, targeted in
             springTask?.cancel()
             guard targeted else { return }

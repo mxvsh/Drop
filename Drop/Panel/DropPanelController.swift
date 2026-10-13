@@ -176,6 +176,7 @@ final class DropPanelController {
                 action: action, files: urls, summary: parts.joined(separator: " · "), copiedText: nil, savings: savings
             )
             applyOutputPreferences(action, originals: selection.urls, results: urls)
+            LastResult.save(urls)
 
         case .text(let text, let summary):
             NSPasteboard.general.clearContents()

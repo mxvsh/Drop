@@ -102,7 +102,7 @@ struct OnboardingView: View {
             )
             HStack(spacing: 8) {
                 StepCard(number: 1, symbol: "hand.draw", text: "Drag any file")
-                StepCard(number: 2, symbol: "keyboard", text: settings.trigger == .shakeOnly ? "Shake it" : "Hold \(settings.trigger.keySymbol) \(settings.trigger.title)")
+                StepCard(number: 2, symbol: "keyboard", text: settings.trigger == .shakeOnly ? "Shake it" : "Press \(settings.trigger.keySymbol) \(settings.trigger.title)")
                 StepCard(number: 3, symbol: "arrow.down.to.line", text: "Drop on an action")
             }
 
@@ -110,7 +110,7 @@ struct OnboardingView: View {
             PageHeader(title: "Try it now", subtitle: "Drag the sample photo above anywhere, then \(revealPhrase).")
             VStack(alignment: .leading, spacing: 10) {
                 ChecklistRow(done: practice.hasDragged, text: "Start dragging the sample photo")
-                ChecklistRow(done: practice.hasRevealed, text: settings.trigger == .shakeOnly ? "Give it a little shake" : "Hold \(settings.trigger.keySymbol) \(settings.trigger.title) while dragging")
+                ChecklistRow(done: practice.hasRevealed, text: settings.trigger == .shakeOnly ? "Give it a little shake" : "Press \(settings.trigger.keySymbol) \(settings.trigger.title) while dragging")
                 ChecklistRow(done: practice.hasDropped, text: "Drop it on any action")
             }
             if practice.isComplete {
@@ -246,7 +246,7 @@ struct OnboardingView: View {
     private var triggerSymbol: String { settings.trigger == .shakeOnly ? "〰" : settings.trigger.keySymbol }
 
     private var revealPhrase: String {
-        settings.trigger == .shakeOnly ? "give it a little shake" : "hold \(settings.trigger.keySymbol) \(settings.trigger.title)"
+        settings.trigger == .shakeOnly ? "give it a little shake" : "press \(settings.trigger.keySymbol) \(settings.trigger.title)"
     }
 }
 
@@ -442,7 +442,7 @@ private struct MenuBarMock: View {
 
 // MARK: - Demo
 
-/// A looping sketch of the gesture at fixed sizes: drag a file, hold the key, the panel appears, drop on PNG.
+/// A looping sketch of the gesture at fixed sizes: drag a file, tap the key, the panel appears, drop on PNG.
 private struct DemoAnimation: View {
     let keySymbol: String
 
@@ -459,7 +459,7 @@ private struct DemoAnimation: View {
                         .opacity(step == .start ? 0 : 1)
                         .offset(x: 70)
 
-                    BigKeyCap(symbol: keySymbol, pressed: step == .holding || step == .hovering)
+                    BigKeyCap(symbol: keySymbol, pressed: step == .holding)
                         .offset(x: -120, y: 42)
 
                     FileGlyph()

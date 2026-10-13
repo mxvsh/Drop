@@ -5,7 +5,7 @@ APP_BUNDLE_ID = com.monawwar.Drop
 PRODUCT_MODULE_NAME = Drop
 
 // What people read, and what Sparkle compares. CI overrides both from the tag and run number.
-MARKETING_VERSION = 0.1.0
+MARKETING_VERSION = 0.1.1
 CURRENT_PROJECT_VERSION = 1
 
 // Without a team, builds are signed to run locally. Local.xcconfig or CI supplies a real identity.

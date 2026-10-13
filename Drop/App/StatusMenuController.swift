@@ -18,6 +18,8 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
         self.updater = updater
         super.init()
         menu.delegate = self
+        // Items with no result to open are disabled by hand, not by the target check.
+        menu.autoenablesItems = false
         statusItem.menu = menu
         updateIcon()
     }
@@ -34,6 +36,26 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
         menu.addItem(ClosureMenuItem(title: shelfTitle, symbol: "tray.full", keyEquivalent: "") { [weak self] in
             self?.onShowShelf()
         })
+
+        let lastResult = LastResult.urls
+        let openLast = ClosureMenuItem(
+            title: lastResult.count > 1 ? "Open Last Results" : "Open Last Result",
+            symbol: "arrow.up.forward.app", keyEquivalent: ""
+        ) { LastResult.open() }
+        let revealLast = ClosureMenuItem(
+            title: lastResult.count > 1 ? "Show Last Results in Finder" : "Show Last Result in Finder",
+            symbol: "folder", keyEquivalent: ""
+        ) { LastResult.revealInFinder() }
+        // Holding Option while the menu is open swaps in the Finder version.
+        revealLast.isAlternate = true
+        revealLast.keyEquivalentModifierMask = .option
+        for item in [openLast, revealLast] {
+            item.isEnabled = !lastResult.isEmpty
+            if let first = lastResult.first {
+                item.subtitle = lastResult.count > 1 ? "\(first.lastPathComponent) and \(lastResult.count - 1) more" : first.lastPathComponent
+            }
+            menu.addItem(item)
+        }
 
         let pause = ClosureMenuItem(title: "Pause Drop", symbol: "pause.circle", keyEquivalent: "") { [weak self] in
             guard let self else { return }
@@ -77,7 +99,7 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
     private var hintTitle: String {
         if settings.isPaused { return "Drop is paused" }
         if settings.trigger == .shakeOnly { return "Shake while dragging a file" }
-        return "Hold \(settings.trigger.keySymbol) while dragging a file"
+        return "Press \(settings.trigger.keySymbol) while dragging a file"
     }
 
     private func updateIcon() {

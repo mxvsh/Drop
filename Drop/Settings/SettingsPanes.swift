@@ -60,7 +60,7 @@ struct GeneralPane: View {
     private var triggerPhrase: String {
         switch settings.trigger {
         case .shakeOnly: "shake it"
-        default: "hold \(settings.trigger.keySymbol) \(settings.trigger.title)"
+        default: "press \(settings.trigger.keySymbol) \(settings.trigger.title)"
         }
     }
 }
