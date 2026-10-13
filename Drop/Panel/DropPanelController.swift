@@ -4,6 +4,8 @@ import SwiftUI
 /// Owns the floating drop zone: where it appears, what it shows, and running the chosen action.
 final class DropPanelController {
     let session = DropSession()
+    /// Called after any action finishes successfully.
+    var onActionFinished: (() -> Void)?
 
     private let settings: AppSettings
     private let shelf: ShelfStore
@@ -183,6 +185,7 @@ final class DropPanelController {
         }
         session.phase = .finished
         NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+        onActionFinished?()
     }
 
     private func applyOutputPreferences(_ action: ActionSpec, originals: [URL], results: [URL]) {

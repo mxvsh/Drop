@@ -142,6 +142,8 @@ final class FileDragSourceView: NSView, NSDraggingSource {
     private var mouseDownEvent: NSEvent?
 
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+    /// Dragging here drags the file, never the window, even in windows movable by their background.
+    override var mouseDownCanMoveWindow: Bool { false }
 
     override func mouseDown(with event: NSEvent) {
         mouseDownEvent = event

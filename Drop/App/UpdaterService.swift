@@ -21,6 +21,12 @@ final class UpdaterService {
 
     var isEnabled: Bool { controller != nil }
 
+    /// Setting this records the choice, so Sparkle doesn't ask on its own later.
+    var automaticallyChecksForUpdates: Bool {
+        get { controller?.updater.automaticallyChecksForUpdates ?? false }
+        set { controller?.updater.automaticallyChecksForUpdates = newValue }
+    }
+
     func checkForUpdates() {
         controller?.checkForUpdates(nil)
     }

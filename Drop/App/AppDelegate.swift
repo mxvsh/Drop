@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let settings = AppSettings()
     private let shelf = ShelfStore()
     private let updater = UpdaterService()
+    private let practice = PracticeSession()
     private var panelController: DropPanelController!
     private var dragMonitor: DragMonitor!
     private var statusMenu: StatusMenuController!
@@ -22,7 +23,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panelController = DropPanelController(settings: settings, shelf: shelf)
 
         dragMonitor = DragMonitor(settings: settings)
-        dragMonitor.onReveal = { [weak self] urls in self?.panelController.reveal(urls: urls) }
+        dragMonitor.onReveal = { [weak self] urls in
+            guard let self else { return }
+            let sample = self.practice.sampleURL.resolvingSymlinksInPath()
+            if self.practice.isActive && urls.contains(where: { $0.resolvingSymlinksInPath() == sample }) {
+                self.practice.hasRevealed = true
+            }
+            self.panelController.reveal(urls: urls)
+        }
+        dragMonitor.acceptsLocalDrags = { [weak self] in self?.practice.isActive ?? false }
+        panelController.onActionFinished = { [weak self] in
+            guard let self, self.practice.isActive, self.practice.hasRevealed else { return }
+            self.practice.hasDropped = true
+        }
         dragMonitor.onDragEnded = { [weak self] in self?.panelController.dragEnded() }
         dragMonitor.start()
 
@@ -58,7 +71,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showOnboarding() {
         if onboardingWindow == nil {
-            onboardingWindow = OnboardingWindowController(settings: settings) { [weak self] in
+            practice.reset()
+            onboardingWindow = OnboardingWindowController(
+                settings: settings, updater: updater, practice: practice, folders: FolderAccess(),
+                onShowMenuBarIcon: { [weak self] in self?.statusMenu.pulse() }
+            ) { [weak self] in
+                self?.practice.isActive = false
                 self?.settings.onboardingCompleted = true
                 self?.onboardingWindow?.close()
                 self?.onboardingWindow = nil

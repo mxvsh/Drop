@@ -8,9 +8,13 @@ import AppKit
 final class DragMonitor {
     var onReveal: (([URL]) -> Void)?
     var onDragEnded: (() -> Void)?
+    /// Drags that start inside Drop's own windows are normally ignored. Onboarding turns this on
+    /// so its practice file can be dragged.
+    var acceptsLocalDrags: () -> Bool = { false }
 
     private let settings: AppSettings
     private var mouseDownMonitor: Any?
+    private var localMouseDownMonitor: Any?
     private var timer: Timer?
     private var baselineChangeCount = 0
     /// nil until a drag starts; empty when the drag carries no files.
@@ -27,11 +31,20 @@ final class DragMonitor {
         mouseDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown) { [weak self] _ in
             MainActor.assumeIsolated { self?.mouseDown() }
         }
+        localMouseDownMonitor = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown) { [weak self] event in
+            MainActor.assumeIsolated {
+                if self?.acceptsLocalDrags() == true { self?.mouseDown() }
+            }
+            return event
+        }
     }
 
     func stop() {
-        if let mouseDownMonitor { NSEvent.removeMonitor(mouseDownMonitor) }
+        for monitor in [mouseDownMonitor, localMouseDownMonitor].compactMap({ $0 }) {
+            NSEvent.removeMonitor(monitor)
+        }
         mouseDownMonitor = nil
+        localMouseDownMonitor = nil
         endTracking()
     }
 

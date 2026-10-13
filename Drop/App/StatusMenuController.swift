@@ -61,6 +61,19 @@ final class StatusMenuController: NSObject, NSMenuDelegate {
         })
     }
 
+    /// Flashes the menu bar icon a few times so it's easy to spot.
+    func pulse() {
+        guard let button = statusItem.button else { return }
+        Task {
+            for _ in 0..<3 {
+                button.highlight(true)
+                try? await Task.sleep(for: .milliseconds(300))
+                button.highlight(false)
+                try? await Task.sleep(for: .milliseconds(300))
+            }
+        }
+    }
+
     private var hintTitle: String {
         if settings.isPaused { return "Drop is paused" }
         if settings.trigger == .shakeOnly { return "Shake while dragging a file" }
