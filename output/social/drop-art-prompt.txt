@@ -1,0 +1,9 @@
+Use case: ads-marketing
+Asset type: polished landscape social graphic for an X post, approximately 3:2 aspect ratio.
+Primary request: Create a beautiful promotional graphic for Drop, a macOS menu bar utility that converts, compresses and temporarily keeps files while the user is dragging them.
+Input image: reference image 1 is the actual Drop app icon. Preserve its distinctive blue teardrop silhouette and warm ivory rounded-square tile faithfully as a small brand icon beside the word Drop. This is a brand reference, not a background to fill the output.
+Art direction: confident minimal editorial tech poster, warm ivory background, deep ink typography, vivid cobalt blue accents matching the icon, ample whitespace, subtle paper grain, carefully balanced composition, premium crafted desktop utility aesthetic.
+Composition: generous safe margins. Small brand lockup top left with the icon and "Drop". Large bold perfectly legible headline on left occupying roughly half of the frame, split over three lines: "Stay in" / "the drag." Under headline, smaller text "Convert. Compress. Keep." Below it a refined small keycap showing "⌥" alongside the text "Hold Option while dragging." Right half: a sculptural cobalt blue flowing ribbon tracing the path of a dragged file in a graceful arc, a crisp white cursor and two floating translucent ivory file tiles labeled "PNG" and "WebP"; communicates a file transformation mid-drag, beautifully lit tactile 3D forms and soft natural shadows. Keep shapes spacious and intentional. No fake app screenshot or complicated interface.
+Bottom left small clean footer: "Made for macOS. Everything stays on your Mac."
+Bottom right small clean URL: "monawwar.com/projects/drop"
+Text must be rendered exactly as quoted, sharp and correctly spelled. Only the specified text. No extra badges, pricing, release dates, availability claims, watermarks, decorative filler or other logos. Final artwork ready to post.

@@ -1,0 +1,7 @@
+I built Drop to keep file chores out of the way.
+
+Drag a file, press ⌥ Option, then convert, compress, or park it for later—all without leaving the drag.
+
+Everything runs on your Mac. Nothing gets uploaded.
+
+monawwar.com/projects/drop
