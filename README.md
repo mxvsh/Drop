@@ -20,7 +20,7 @@ Drop looks at what you're dragging and only offers what makes sense. A format yo
 
 | Files | Convert to | Tools |
 |---|---|---|
-| Images | PNG, JPEG, HEIC, WebP, ICNS, ICO, PDF | Compress, Resize, Remove background, Copy text (OCR), Strip metadata |
+| Images | PNG, JPEG, HEIC, WebP, ICNS, ICO, PDF | Compress, Resize, Remove background, Copy text (OCR), Strip metadata, Show info |
 | PDFs | PNG (one per page) | Merge, Compress, Copy text |
 | Videos | MP4, GIF | Compress, Extract audio |
 | Audio | M4A | |

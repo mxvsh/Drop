@@ -24,6 +24,8 @@ nonisolated enum ActionOutput: Sendable {
     case files([URL])
     /// Text for the clipboard, with a short description of what was copied.
     case text(String, summary: String)
+    /// A card of facts about the dropped file. Nothing is written or copied.
+    case details([InfoRow], summary: String)
 }
 
 /// Actions that ask for values before running. The panel shows a small form after the drop.

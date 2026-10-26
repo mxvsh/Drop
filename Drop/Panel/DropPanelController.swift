@@ -147,6 +147,12 @@ final class DropPanelController {
         NSWorkspace.shared.activateFileViewerSelecting(urls)
     }
 
+    func copyToClipboard(_ rows: [InfoRow]) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(rows.map { "\($0.label): \($0.value)" }.joined(separator: "\n"), forType: .string)
+        NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .now)
+    }
+
     func copyToClipboard(_ urls: [URL]) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.writeObjects(urls as [NSURL])
@@ -183,6 +189,12 @@ final class DropPanelController {
             NSPasteboard.general.setString(text, forType: .string)
             session.result = DropResult(action: action, files: [], summary: summary, copiedText: text, savings: nil)
             scheduleAutoDismiss(after: .seconds(2.5))
+
+        case .details(let rows, let summary):
+            // Stays open until the card is dismissed or clicked away from.
+            session.result = DropResult(
+                action: action, files: [], summary: summary, copiedText: nil, savings: nil, details: rows, subjects: selection.urls
+            )
         }
         session.phase = .finished
         NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)

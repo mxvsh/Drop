@@ -146,6 +146,16 @@ nonisolated enum ActionCatalog {
             run: { .files(try await ImageEngine.stripMetadata($0.files, options: $0.options, progress: $0.progress)) }
         ),
         ActionSpec(
+            id: "image.info", title: "Info", name: "Show info", detail: "Size, dimensions and metadata", symbol: "info.circle",
+            group: .utilities, verb: "Reading", done: "Image info",
+            isAvailable: { $0.count == 1 && $0.all(.image) },
+            run: { input in
+                let rows = try await ImageEngine.info(input.files[0])
+                let summary = rows.first { $0.label == "Dimensions" }?.value ?? ByteCountFormatter.string(fromByteCount: input.files[0].size, countStyle: .file)
+                return .details(rows, summary: summary)
+            }
+        ),
+        ActionSpec(
             id: "files.zip", title: "Zip", name: "Zip", detail: "Compressed archive", symbol: "doc.zipper",
             group: .utilities, verb: "Zipping", done: "Zipped",
             isAvailable: { !$0.isEmpty },

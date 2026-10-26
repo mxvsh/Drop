@@ -378,6 +378,14 @@ private struct ResultView: View {
     @State private var hovering = false
 
     var body: some View {
+        if result.details.isEmpty {
+            filesBody
+        } else {
+            InfoCard(result: result, controller: controller)
+        }
+    }
+
+    private var filesBody: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 12) {
                 HStack(spacing: 12) {
@@ -455,6 +463,54 @@ private struct ResultView: View {
     private var summaryColor: Color {
         guard let savings = result.savings else { return .secondary }
         return savings > 0.005 ? .green : .secondary
+    }
+}
+
+/// Facts about a file: a thumbnail and name on top, then label and value rows.
+private struct InfoCard: View {
+    let result: DropResult
+    let controller: DropPanelController
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                ThumbnailStack(urls: result.subjects, size: 36)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(result.subjects.first?.lastPathComponent ?? result.action.done)
+                        .font(.system(size: 13, weight: .semibold))
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Text(result.summary)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+                Spacer(minLength: 0)
+                PanelIconButton(symbol: "doc.on.doc", help: "Copy info") { controller.copyToClipboard(result.details) }
+                PanelIconButton(symbol: "xmark", help: "Close") { controller.dismiss() }
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(result.details, id: \.self) { row in
+                    HStack(alignment: .firstTextBaseline, spacing: 10) {
+                        Text(row.label)
+                            .foregroundStyle(.secondary)
+                            .frame(width: 80, alignment: .leading)
+                        Text(row.value)
+                            .foregroundStyle(.primary)
+                            .lineLimit(2)
+                            .truncationMode(.middle)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .font(.system(size: 11.5))
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Theme.surface))
+        }
+        .padding(Theme.padding)
     }
 }
 

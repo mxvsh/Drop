@@ -47,4 +47,7 @@ struct DropResult {
     let copiedText: String?
     /// Positive when the output is smaller than the input.
     let savings: Double?
+    /// Facts about `subjects`, shown as a card instead of files to drag out.
+    var details: [InfoRow] = []
+    var subjects: [URL] = []
 }
